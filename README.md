@@ -31,6 +31,27 @@ Installation
     ln -s $PWD/bcompare/bcompare /usr/local/bin/bcompare
 
 
+Integration with Git
+--------------------
+
+To use Beyond Compare with Git, put the following in your `~/.gitconfig`:
+
+    [diff]
+      tool = bcompare
+    [difftool]
+      prompt = false
+
+    [merge]
+      tool = bcompare
+    [mergetool]
+      prompt = false
+
+    [difftool "bcompare"]
+      cmd = bcompare diff "$REMOTE" "$LOCAL"
+    [mergetool "bcompare"]
+      cmd = bcompare merge "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
+
+
 License
 -------
 
