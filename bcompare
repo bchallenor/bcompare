@@ -1,0 +1,72 @@
+#!/usr/bin/env python
+
+import argparse
+import os
+import subprocess
+import sys
+
+
+BCOMP_PATH = os.environ['BCOMP_PATH']
+
+
+# Convert unix paths to wine paths
+def unix_to_wine(unix_paths):
+  wine_path_args = ['winepath', '-w0']
+  wine_path_args.extend(unix_paths)
+  print 'wine_path_args: ' + str(wine_path_args)
+
+  p = subprocess.Popen(wine_path_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  out, err = p.communicate()
+  assert(p.returncode == 0)
+
+  wine_paths = out.rstrip('\0').split('\0')
+  return wine_paths
+
+
+# Launch
+def launch(bc_args):
+  wine_args = ['wine', BCOMP_PATH]
+  wine_args.extend(bc_args)
+  print 'wine_args: ' + str(wine_args)
+
+  # subprocess.DEVNULL would be better, but it requires Python 3.3
+  status = subprocess.call(wine_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  print 'status: ' + str(status)
+  sys.exit(status)
+
+
+# Launch as diff
+def diff(args):
+  unix_paths = [args.remote, args.local]
+  bc_args = unix_to_wine(unix_paths)
+  bc_args.append('/leftreadonly')
+  launch(bc_args)
+
+
+# Launch as merge
+def merge(args):
+  unix_paths = [args.local, args.remote, args.base, args.merged]
+  bc_args = unix_to_wine(unix_paths)
+  launch(bc_args)
+
+
+# Set up parser
+parser = argparse.ArgumentParser(description='Launch Beyond Compare via Wine')
+subparsers = parser.add_subparsers()
+
+diff_parser = subparsers.add_parser('diff')
+diff_parser.add_argument('remote')
+diff_parser.add_argument('local')
+diff_parser.set_defaults(func=diff)
+
+merge_parser = subparsers.add_parser('merge')
+merge_parser.add_argument('local')
+merge_parser.add_argument('remote')
+merge_parser.add_argument('base')
+merge_parser.add_argument('merged')
+merge_parser.set_defaults(func=merge)
+
+
+# Parse args and launch corresponding function
+args = parser.parse_args()
+args.func(args)
