@@ -1,7 +1,7 @@
 bcompare: Launches Beyond Compare via Wine
 ==========================================
 
-Launching Beyond Compare via `wine` itself is hard because of the need to
+Launching [Beyond Compare](http://www.scootersoftware.com) via `wine` itself is hard because of the need to
 translate the arguments from Unix paths to Wine paths.
 
 `bcompare` does that for you, using `winepath`. It also passes other helpful
@@ -20,7 +20,7 @@ Usage
 Requirements
 ------------
 
-- `wine` and `winepath` installed and available on the `PATH`
+- `wine` and `winepath` installed and available on the `PATH` (e.g. with [MacPorts](http://www.macports.org))
 - `BCOMP_PATH` environment variable pointing to `BComp.exe`
 
 
