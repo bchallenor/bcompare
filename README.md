@@ -24,6 +24,13 @@ Requirements
 - `BCOMP_PATH` environment variable pointing to `BComp.exe`
 
 
+Installation
+------------
+
+    git clone https://github.com/bchallenor/bcompare.git
+    ln -s $PWD/bcompare/bcompare /usr/local/bin/bcompare
+
+
 License
 -------
 
