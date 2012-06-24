@@ -47,7 +47,7 @@ To use Beyond Compare with Git, put the following in your `~/.gitconfig`:
       prompt = false
 
     [difftool "bcompare"]
-      cmd = bcompare diff "$REMOTE" "$LOCAL"
+      cmd = bcompare diff "$LOCAL" "$REMOTE"
     [mergetool "bcompare"]
       cmd = bcompare merge "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
 

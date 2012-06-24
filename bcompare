@@ -61,7 +61,7 @@ def launch(bc_args):
 
 # Launch as diff
 def diff(args):
-  unix_paths = [args.remote, args.local]
+  unix_paths = [args.local, args.remote]
   bc_args = unix_to_wine(unix_paths)
   bc_args.append('/leftreadonly')
   launch(bc_args)
@@ -79,8 +79,8 @@ parser = argparse.ArgumentParser(description='Launch Beyond Compare via Wine')
 subparsers = parser.add_subparsers()
 
 diff_parser = subparsers.add_parser('diff')
-diff_parser.add_argument('remote')
 diff_parser.add_argument('local')
+diff_parser.add_argument('remote')
 diff_parser.set_defaults(func=diff)
 
 merge_parser = subparsers.add_parser('merge')
